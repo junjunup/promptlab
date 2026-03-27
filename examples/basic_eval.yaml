@@ -1,0 +1,56 @@
+# PromptLab Example: Basic Evaluation
+# Run with: promptlab run examples/basic_eval.yaml
+
+description: "Basic prompt evaluation — sentiment analysis"
+
+providers:
+  - id: gpt4-mini
+    type: openai
+    model: gpt-4o-mini
+    temperature: 0
+
+prompts:
+  - id: simple
+    content: |
+      Classify the sentiment of the following text as positive, negative, or neutral.
+      Reply with ONLY one word: positive, negative, or neutral.
+
+      Text: {{text}}
+  - id: detailed
+    content: |
+      You are a sentiment analysis expert. Analyze the following text and classify
+      its sentiment. Consider nuances, sarcasm, and context.
+      Reply with ONLY one word: positive, negative, or neutral.
+
+      Text: {{text}}
+
+tests:
+  - description: "Clearly positive"
+    vars:
+      text: "This product is absolutely amazing! I love everything about it!"
+    assert:
+      - type: contains
+        value: "positive"
+  - description: "Clearly negative"
+    vars:
+      text: "Terrible quality, worst purchase ever. Complete waste of money."
+    assert:
+      - type: contains
+        value: "negative"
+  - description: "Neutral statement"
+    vars:
+      text: "The package arrived on Tuesday as expected."
+    assert:
+      - type: contains
+        value: "neutral"
+  - description: "Sarcastic positive"
+    vars:
+      text: "Oh great, another Monday morning. Just what I needed."
+    assert:
+      - type: contains
+        value: "negative"
+
+settings:
+  concurrency: 3
+  timeout: 30
+  output: results/basic_eval.json

@@ -1,0 +1,55 @@
+# PromptLab Example: Model Comparison
+# Run with: promptlab run examples/model_compare.yaml
+
+description: "Compare GPT-4o-mini vs Claude Haiku on math questions"
+
+providers:
+  - id: gpt4-mini
+    type: openai
+    model: gpt-4o-mini
+    temperature: 0
+  - id: claude-haiku
+    type: anthropic
+    model: claude-3-5-haiku-20241022
+    temperature: 0
+
+prompts:
+  - id: direct
+    content: |
+      Answer the following math question. Show your work, then give the final answer
+      on the last line in the format: "Answer: <number>"
+
+      Question: {{question}}
+
+tests:
+  - description: "Basic arithmetic"
+    vars:
+      question: "What is 15 * 23 + 47?"
+    assert:
+      - type: contains
+        value: "392"
+  - description: "Percentage"
+    vars:
+      question: "What is 15% of 200?"
+    assert:
+      - type: contains
+        value: "30"
+  - description: "Word problem"
+    vars:
+      question: "If a train travels at 60 mph for 2.5 hours, how far does it go?"
+    assert:
+      - type: contains
+        value: "150"
+  - description: "Token budget"
+    vars:
+      question: "What is 7 * 8?"
+    assert:
+      - type: contains
+        value: "56"
+      - type: cost
+        max_tokens: 200
+
+settings:
+  concurrency: 5
+  timeout: 30
+  output: results/model_compare.json

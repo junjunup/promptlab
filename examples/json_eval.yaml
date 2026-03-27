@@ -1,0 +1,47 @@
+# PromptLab Example: JSON Output Validation
+# Run with: promptlab run examples/json_eval.yaml
+
+description: "Test structured JSON output from LLMs"
+
+providers:
+  - id: gpt4-mini
+    type: openai
+    model: gpt-4o-mini
+    temperature: 0
+
+prompts:
+  - id: json-v1
+    content: |
+      Extract the following information from the text and return it as JSON:
+      - name: string
+      - age: number
+      - city: string
+
+      Text: {{text}}
+
+      Return ONLY valid JSON, no explanation.
+
+tests:
+  - description: "Simple extraction"
+    vars:
+      text: "John Smith is 30 years old and lives in New York."
+    assert:
+      - type: json_valid
+      - type: contains
+        value: "John Smith"
+      - type: contains
+        value: "30"
+  - description: "Complex extraction"
+    vars:
+      text: "Meet Alice, a 25-year-old developer from San Francisco."
+    assert:
+      - type: json_valid
+      - type: contains
+        value: "Alice"
+      - type: regex
+        value: "\"age\":\\s*25"
+
+settings:
+  concurrency: 3
+  timeout: 30
+  output: results/json_eval.json
