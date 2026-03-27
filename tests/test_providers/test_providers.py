@@ -2,10 +2,8 @@
 
 from __future__ import annotations
 
-import pytest
-
 from promptlab.models import ProviderConfig, ProviderType
-from promptlab.providers.base import BaseProvider, ProviderResponse
+from promptlab.providers.base import ProviderResponse
 from promptlab.providers.registry import create_provider, get_provider_class
 
 

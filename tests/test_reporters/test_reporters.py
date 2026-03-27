@@ -6,8 +6,8 @@ from pathlib import Path
 
 import pytest
 
-from promptlab.reporters.json_reporter import JsonReporter
 from promptlab.reporters.csv_reporter import CsvReporter
+from promptlab.reporters.json_reporter import JsonReporter
 
 
 @pytest.fixture

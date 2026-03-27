@@ -5,13 +5,14 @@ from __future__ import annotations
 import asyncio
 import time
 import uuid
+from typing import Any
 
 from jinja2 import Template
 
 from promptlab.evaluators import create_evaluator
 from promptlab.evaluators.base import EvalContext
 from promptlab.evaluators.llm_judge import LlmJudgeEvaluator
-from promptlab.exceptions import EvaluationError, ProviderError
+from promptlab.exceptions import ProviderError
 from promptlab.models import (
     AssertionConfig,
     AssertionResult,

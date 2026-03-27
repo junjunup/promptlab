@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import os
 from pathlib import Path
 
 import pytest
 
-from promptlab.config import load_config, generate_example_config, _resolve_env_vars
+from promptlab.config import _resolve_env_vars, generate_example_config, load_config
 from promptlab.exceptions import ConfigError
 from promptlab.models import EvalConfig
 
@@ -38,7 +37,7 @@ class TestLoadConfig:
         config_file = tmp_path / "eval.json"
         config_file.write_text("{}")
 
-        with pytest.raises(ConfigError, match="must be .yaml"):
+        with pytest.raises(ConfigError, match=r"must be .yaml"):
             load_config(str(config_file))
 
     def test_load_invalid_yaml(self, tmp_path: Path) -> None:

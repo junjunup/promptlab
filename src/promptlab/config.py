@@ -28,7 +28,7 @@ def load_config(config_path: str, **overrides: Any) -> EvalConfig:
     path = Path(config_path)
     if not path.exists():
         raise ConfigError(f"Config file not found: {config_path}")
-    if not path.suffix.lower() in (".yaml", ".yml"):
+    if path.suffix.lower() not in (".yaml", ".yml"):
         raise ConfigError(f"Config file must be .yaml or .yml, got: {path.suffix}")
 
     try:
@@ -102,12 +102,15 @@ def _validate_config_semantics(config: EvalConfig) -> None:
     # Validate LLM judge references
     for test in config.tests:
         for assertion in test.assert_:
-            if assertion.type.value == "llm_judge" and assertion.judge_provider:
-                if assertion.judge_provider not in provider_ids:
-                    raise ConfigError(
-                        f"LLM judge references unknown provider: "
-                        f"'{assertion.judge_provider}'"
-                    )
+            if (
+                assertion.type.value == "llm_judge"
+                and assertion.judge_provider
+                and assertion.judge_provider not in provider_ids
+            ):
+                raise ConfigError(
+                    f"LLM judge references unknown provider: "
+                    f"'{assertion.judge_provider}'"
+                )
 
 
 def generate_example_config() -> str:

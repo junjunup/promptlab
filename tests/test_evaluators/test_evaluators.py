@@ -9,11 +9,11 @@ from promptlab.evaluators.contains import ContainsEvaluator
 from promptlab.evaluators.cost import CostEvaluator
 from promptlab.evaluators.exact import ExactEvaluator
 from promptlab.evaluators.json_valid import JsonValidEvaluator
-from promptlab.evaluators.regex import RegexEvaluator
-from promptlab.evaluators.registry import create_evaluator, get_evaluator_class
-from promptlab.evaluators.similarity import SimilarityEvaluator
 from promptlab.evaluators.llm_judge import LlmJudgeEvaluator
-from promptlab.exceptions import EvaluationError, EvaluatorNotFoundError
+from promptlab.evaluators.regex import RegexEvaluator
+from promptlab.evaluators.registry import create_evaluator
+from promptlab.evaluators.similarity import SimilarityEvaluator
+from promptlab.exceptions import EvaluationError
 from promptlab.models import AssertionConfig, AssertionType
 
 
